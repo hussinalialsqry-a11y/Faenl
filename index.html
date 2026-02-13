@@ -1,0 +1,1446 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Final Exam - Electricity and Magnetism | الامتحان النهائي - الكهرباء والمغناطيسية</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Roboto:wght@400;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Roboto', 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            color: #eaeaea;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 30px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #00d4ff, #7b2cbf);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .header h2 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            color: #ffd700;
+        }
+        
+        .exam-info {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .info-box {
+            background: rgba(0,212,255,0.1);
+            padding: 15px 25px;
+            border-radius: 10px;
+            border: 1px solid rgba(0,212,255,0.3);
+        }
+        
+        .question-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .question-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .question-number {
+            display: inline-block;
+            background: linear-gradient(45deg, #00d4ff, #7b2cbf);
+            color: white;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            border-radius: 50%;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .question-text {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+        
+        .question-arabic {
+            font-size: 1.1em;
+            color: #ffd700;
+            margin-bottom: 20px;
+            font-family: 'Cairo', sans-serif;
+            direction: rtl;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .option {
+            background: rgba(255,255,255,0.05);
+            padding: 15px 20px;
+            border-radius: 10px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .option:hover {
+            background: rgba(0,212,255,0.1);
+            border-color: rgba(0,212,255,0.3);
+        }
+        
+        .option-letter {
+            background: rgba(255,255,255,0.1);
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            font-weight: bold;
+            color: #00d4ff;
+        }
+        
+        .option-text {
+            flex: 1;
+        }
+        
+        .option-arabic {
+            color: #aaa;
+            font-size: 0.9em;
+            font-family: 'Cairo', sans-serif;
+            direction: rtl;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 20px;
+            font-size: 1.3em;
+            background: linear-gradient(45deg, #00d4ff, #7b2cbf);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            font-weight: bold;
+        }
+        
+        .submit-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(0,212,255,0.3);
+        }
+        
+        .results {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        
+        .results-content {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            padding: 50px;
+            border-radius: 20px;
+            text-align: center;
+            border: 2px solid #00d4ff;
+            max-width: 500px;
+        }
+        
+        .score-circle {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: conic-gradient(#00d4ff var(--score-deg), rgba(255,255,255,0.1) 0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 30px auto;
+            position: relative;
+        }
+        
+        .score-inner {
+            width: 160px;
+            height: 160px;
+            background: #1a1a2e;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            font-weight: bold;
+            color: #00d4ff;
+        }
+        
+        @media print {
+            .submit-btn, .results { display: none !important; }
+            .question-card { page-break-inside: avoid; }
+        }
+        
+        .section-title {
+            background: rgba(0,212,255,0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 30px 0 20px;
+            text-align: center;
+            border-left: 5px solid #00d4ff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Final Examination - Electricity and Magnetism</h1>
+            <h2>الامتحان النهائي - الكهرباء والمغناطيسية</h2>
+            <p style="color: #aaa; margin-bottom: 10px;">Al-Manara University College - Department of Medical Physics</p>
+            <p style="color: #ffd700;">كلية المنارة الجامعية - قسم الفيزياء الطبية</p>
+            <div class="exam-info">
+                <div class="info-box">
+                    <div>Total Questions / إجمالي الأسئلة</div>
+                    <div style="font-size: 1.5em; color: #00d4ff;">80</div>
+                </div>
+                <div class="info-box">
+                    <div>Time / الوقت</div>
+                    <div style="font-size: 1.5em; color: #00d4ff;">120 min</div>
+                </div>
+                <div class="info-box">
+                    <div>Full Marks / الدرجة الكاملة</div>
+                    <div style="font-size: 1.5em; color: #00d4ff;">100</div>
+                </div>
+            </div>
+        </div>
+
+        <form id="examForm">
+            <!-- LECTURE 1: Electric Charge and Structure of Matter -->
+            <div class="section-title">
+                <h3>Section 1: Electric Charge and Structure of Matter | القسم الأول: الشحنة الكهربائية وتركيب المادة</h3>
+            </div>
+
+            <!-- Q1 -->
+            <div class="question-card">
+                <span class="question-number">1</span>
+                <div class="question-text">What happens when two glass rods, each rubbed with silk cloth, are brought close to each other?</div>
+                <div class="question-arabic">ماذا يحدث عند تقريب قضيبي زجاج كل منهما مُحك بقماش حريري من بعضهما البعض؟</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">They attract each other<br><span class="option-arabic">يتجاذبان</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">They repel each other<br><span class="option-arabic">يتنافران</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">They remain stationary<br><span class="option-arabic">يبقيان ساكنين</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">They rotate<br><span class="option-arabic">يدوران</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q2 -->
+            <div class="question-card">
+                <span class="question-number">2</span>
+                <div class="question-text">When a plastic rod rubbed with fur is brought close to a glass rod, what is the nature of the force?</div>
+                <div class="question-arabic">عند تقريب قضيب بلاستيكي مُحك بفرو من قضيب زجاجي، ما طبيعة القوة بينهما؟</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">Repulsive force<br><span class="option-arabic">قوة تنافر</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">Attractive force<br><span class="option-arabic">قوة تجاذب</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">No force observed<br><span class="option-arabic">لا توجد قوة</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">Rotational force<br><span class="option-arabic">قوة دورانية</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q3 -->
+            <div class="question-card">
+                <span class="question-number">3</span>
+                <div class="question-text">Who first proposed the hypothesis of conservation of charge?</div>
+                <div class="question-arabic">من كان أول من اقترح فرضية حفظ الشحنة؟</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">Isaac Newton<br><span class="option-arabic">إسحاق نيوتن</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">Albert Einstein<br><span class="option-arabic">ألبرت أينشتاين</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">Benjamin Franklin<br><span class="option-arabic">بنجامين فرانكلين</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">Marie Curie<br><span class="option-arabic">ماري كوري</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q4 -->
+            <div class="question-card">
+                <span class="question-number">4</span>
+                <div class="question-text">What is the value of the elementary charge e?</div>
+                <div class="question-arabic">ما قيمة الشحنة الأولية e؟</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">1.602 × 10⁻¹⁹ C<br><span class="option-arabic">1.602 × 10⁻¹⁹ كولوم</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">1.602 × 10⁻¹⁸ C<br><span class="option-arabic">1.602 × 10⁻¹⁸ كولوم</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">9.11 × 10⁻³¹ C<br><span class="option-arabic">9.11 × 10⁻³¹ كولوم</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">6.63 × 10⁻³⁴ C<br><span class="option-arabic">6.63 × 10⁻³⁴ كولوم</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q5 -->
+            <div class="question-card">
+                <span class="question-number">5</span>
+                <div class="question-text">According to charge quantization, any charge q can be written as:</div>
+                <div class="question-arabic">وفقاً لتكميم الشحنة، يمكن كتابة أي شحنة q على شكل:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">q = n²e<br><span class="option-arabic">q = n²e</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">q = ne where n = ±1, ±2, ±3...<br><span class="option-arabic">q = ne حيث n = ±1, ±2, ±3...</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">q = e/n<br><span class="option-arabic">q = e/n</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">q = √ne<br><span class="option-arabic">q = √ne</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q6 -->
+            <div class="question-card">
+                <span class="question-number">6</span>
+                <div class="question-text">In the radioactive decay ²³⁸U → ²³⁴Th + ⁴He, what is conserved?</div>
+                <div class="question-arabic">في الانحلال الإشعاعي ²³⁸U → ²³⁴Th + ⁴He، ما الذي يحفظ؟</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">Only mass<br><span class="option-arabic">الكتلة فقط</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">Only energy<br><span class="option-arabic">الطاقة فقط</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">Charge and mass number<br><span class="option-arabic">الشحنة ورقم الكتلة</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">Only momentum<br><span class="option-arabic">الزخم فقط</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q7 -->
+            <div class="question-card">
+                <span class="question-number">7</span>
+                <div class="question-text">What particles have charges of e/3 or 2e/3?</div>
+                <div class="question-arabic">ما الجسيمات التي تمتلك شحنات e/3 أو 2e/3؟</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">Electrons<br><span class="option-arabic">الإلكترونات</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">Protons<br><span class="option-arabic">البروتونات</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">Quarks<br><span class="option-arabic">الكواركات</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">Neutrons<br><span class="option-arabic">النيوترونات</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q8 -->
+            <div class="question-card">
+                <span class="question-number">8</span>
+                <div class="question-text">An object is electrically neutral when:</div>
+                <div class="question-arabic">يكون الجسم متعادلاً كهربائياً عندما:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">It has no electrons<br><span class="option-arabic">لا يحتوي على إلكترونات</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">It has equal numbers of protons and electrons<br><span class="option-arabic">يحتوي على أعداد متساوية من البروتونات والإلكترونات</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">It has no protons<br><span class="option-arabic">لا يحتوي على بروتونات</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">It has more electrons than protons<br><span class="option-arabic">يحتوي على إلكترونات أكثر من البروتونات</span></div></div>
+                </div>
+            </div>
+
+            <!-- LECTURE 2: Conductors and Insulators -->
+            <div class="section-title">
+                <h3>Section 2: Conductors and Insulators | القسم الثاني: الموصلات والعوازل</h3>
+            </div>
+
+            <!-- Q9 -->
+            <div class="question-card">
+                <span class="question-number">9</span>
+                <div class="question-text">What is a characteristic of good conductors in terms of electron movement?</div>
+                <div class="question-arabic">ما هي خاصية الموصلات الجيدة من حيث حركة الإلكترونات؟</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">Electrons are bound to atoms<br><span class="option-arabic">الإلكترونات مرتبطة بالذرات</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">Electrons cannot move freely<br><span class="option-arabic">الإلكترونات لا تستطيع الحركة بحرية</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">Electrons distribute readily over the material<br><span class="option-arabic">الإلكترونات تنتشر بسهولة في المادة</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">Electrons are confined to small regions<br><span class="option-arabic">الإلكترونات محصورة في مناطق صغيرة</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q10 -->
+            <div class="question-card">
+                <span class="question-number">10</span>
+                <div class="question-text">Which materials are mentioned as examples of good insulators?</div>
+                <div class="question-arabic">أي المواد مذكورة كأمثلة على عوازل جيدة؟</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">Copper, aluminum, and silver<br><span class="option-arabic">النحاس والألمنيوم والفضة</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">Glass, rubber, and wood<br><span class="option-arabic">الزجاج والمطاط والخشب</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">Silicon and germanium<br><span class="option-arabic">السيليكون والجرمانيوم</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">Metals and tap water<br><span class="option-arabic">المعادن والماء العادي</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q11 -->
+            <div class="question-card">
+                <span class="question-number">11</span>
+                <div class="question-text">In conductors, free electrons are:</div>
+                <div class="question-arabic">في الموصلات، الإلكترونات الحرة هي:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">Bound to the nucleus<br><span class="option-arabic">مرتبطة بالنواة</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">Not bound to the atoms<br><span class="option-arabic">غير مرتبطة بالذرات</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">Only in the nucleus<br><span class="option-arabic">موجودة في النواة فقط</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">Stationary<br><span class="option-arabic">ساكنة</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q12 -->
+            <div class="question-card">
+                <span class="question-number">12</span>
+                <div class="question-text">Semiconductors have electrical properties:</div>
+                <div class="question-arabic">المواد شبه الموصلة لها خصائص كهربائية:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">Same as conductors<br><span class="option-arabic">مشابهة للموصلات</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">Same as insulators<br><span class="option-arabic">مشابهة للعوازل</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">Between insulators and conductors<br><span class="option-arabic">بين العوازل والموصلات</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">Better than conductors<br><span class="option-arabic">أفضل من الموصلات</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q13 -->
+            <div class="question-card">
+                <span class="question-number">13</span>
+                <div class="question-text">Charging by induction involves:</div>
+                <div class="question-arabic">يشحن بالحث:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">Direct contact between objects<br><span class="option-arabic">التلامس المباشر بين الأجسام</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">Movement of electrons without direct contact<br><span class="option-arabic">حركة الإلكترونات بدون تلامس مباشر</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">Rubbing two materials together<br><span class="option-arabic">حك مادتين معاً</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">Heating the material<br><span class="option-arabic">تسخين المادة</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q14 -->
+            <div class="question-card">
+                <span class="question-number">14</span>
+                <div class="question-text">When a negatively charged rod is brought near a neutral conductor:</div>
+                <div class="question-arabic">عند تقريب قضيب مشحون سلباً من موصل متعادل:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">Electrons move toward the near end<br><span class="option-arabic">تنتقل الإلكترونات نحو الطرف القريب</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">Electrons move away from the near end<br><span class="option-arabic">تنتقل الإلكترونات بعيداً عن الطرف القريب</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">Nothing happens<br><span class="option-arabic">لا يحدث شيء</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">The conductor becomes positively charged throughout<br><span class="option-arabic">يصبح الموصل موجب الشحنة بالكامل</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q15 -->
+            <div class="question-card">
+                <span class="question-number">15</span>
+                <div class="question-text">Charging by friction involves:</div>
+                <div class="question-arabic">يتضمن الشحن بالاحتكاك:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">Transfer of electrons by rubbing<br><span class="option-arabic">انتقال الإلكترونات بالحك</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">Creation of new charges<br><span class="option-arabic">إنشاء شحنات جديدة</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">Destruction of charges<br><span class="option-arabic">تدمير الشحنات</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">Only heating effect<br><span class="option-arabic">تأثير التسخين فقط</span></div></div>
+                </div>
+            </div>
+
+            <!-- LECTURE 3: Coulomb's Law and Electric Fields -->
+            <div class="section-title">
+                <h3>Section 3: Coulomb's Law and Electric Fields | القسم الثالث: قانون كولوم والمجالات الكهربائية</h3>
+            </div>
+
+            <!-- Q16 -->
+            <div class="question-card">
+                <span class="question-number">16</span>
+                <div class="question-text">Coulomb's Law states that the electrostatic force between two point charges is:</div>
+                <div class="question-arabic">ينص قانون كولوم على أن القوة الكهروستاتيكية بين شحنتين نقطيتين:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">Directly proportional to the distance between them<br><span class="option-arabic">تتناسب طردياً مع المسافة بينهما</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">Inversely proportional to the square of the distance<br><span class="option-arabic">تتناسب عكسياً مع مربع المسافة</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">Independent of the charges<br><span class="option-arabic">مستقلة عن الشحنات</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">Always attractive<br><span class="option-arabic">جذابة دائماً</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q17 -->
+            <div class="question-card">
+                <span class="question-number">17</span>
+                <div class="question-text">The value of Coulomb's constant k is approximately:</div>
+                <div class="question-arabic">قيمة ثابت كولوم k تقريباً:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">8.99 × 10⁹ N·m²/C²<br><span class="option-arabic">8.99 × 10⁹ نيوتن·متر²/كولوم²</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">9.8 m/s²<br><span class="option-arabic">9.8 متر/ثانية²</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">6.63 × 10⁻³⁴ J·s<br><span class="option-arabic">6.63 × 10⁻³⁴ جول·ثانية</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">3 × 10⁸ m/s<br><span class="option-arabic">3 × 10⁸ متر/ثانية</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q18 -->
+            <div class="question-card">
+                <span class="question-number">18</span>
+                <div class="question-text">Two like charges:</div>
+                <div class="question-arabic">شحنتان متشابهتان:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">Attract each other<br><span class="option-arabic">تتجاذبان</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">Repel each other<br><span class="option-arabic">تتنافران</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">Have no effect on each other<br><span class="option-arabic">لا يكون لها تأثير على بعضهما</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">Neutralize each other<br><span class="option-arabic">تحيدان بعضهما البعض</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q19 -->
+            <div class="question-card">
+                <span class="question-number">19</span>
+                <div class="question-text">The permittivity of free space ε₀ equals:</div>
+                <div class="question-arabic">سماحية الفراغ ε₀ تساوي:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">8.85 × 10⁻¹² C²/N·m²<br><span class="option-arabic">8.85 × 10⁻¹² كولوم²/نيوتن·متر²</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">8.85 × 10⁻¹² F/m<br><span class="option-arabic">8.85 × 10⁻¹² فاراد/متر</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">Both A and B are correct<br><span class="option-arabic">كل من A و B صحيح</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">1.60 × 10⁻¹⁹ C<br><span class="option-arabic">1.60 × 10⁻¹٩ كولوم</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q20 -->
+            <div class="question-card">
+                <span class="question-number">20</span>
+                <div class="question-text">The electric field E at a distance r from a point charge q is given by:</div>
+                <div class="question-arabic">المجال الكهربائي E على مسافة r من شحنة نقطية q يعطى بالعلاقة:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">E = kq/r<br><span class="option-arabic">E = kq/r</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">E = kq/r²<br><span class="option-arabic">E = kq/r²</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">E = kq²/r<br><span class="option-arabic">E = kq²/r</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">E = k/r²<br><span class="option-arabic">E = k/r²</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q21 -->
+            <div class="question-card">
+                <span class="question-number">21</span>
+                <div class="question-text">The direction of the electric field due to a positive point charge is:</div>
+                <div class="question-arabic">اتجاه المجال الكهربائي الناتج عن شحنة نقطية موجبة هو:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">Radially inward<br><span class="option-arabic">نحو الداخل شعاعياً</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">Radially outward<br><span class="option-arabic">نحو الخارج شعاعياً</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">Circular<br><span class="option-arabic">دائري</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">Tangential<br><span class="option-arabic">مماس</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q22 -->
+            <div class="question-card">
+                <span class="question-number">22</span>
+                <div class="question-text">The superposition principle for electric fields states that:</div>
+                <div class="question-arabic">مبدأ التراكب للمجالات الكهربائية ينص على أن:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">Fields cancel each other<br><span class="option-arabic">المجالات تلغي بعضها البعض</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">The total field is the vector sum of individual fields<br><span class="option-arabic">المجال الكلي هو مجموع المتجهات للمجالات الفردية</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">Only the largest field matters<br><span class="option-arabic">المجال الأكبر فقط هو المهم</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">Fields multiply together<br><span class="option-arabic">المجالات تتضاعف معاً</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q23 -->
+            <div class="question-card">
+                <span class="question-number">23</span>
+                <div class="question-text">For a dielectric material with constant K, the force between charges becomes:</div>
+                <div class="question-arabic">لمادة عازلة ثابتها K، تصبح القوة بين الشحنات:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">K times larger<br><span class="option-arabic">K مرة أكبر</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">K times smaller<br><span class="option-arabic">K مرة أصغر</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">Unchanged<br><span class="option-arabic">دون تغيير</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">Zero<br><span class="option-arabic">صفر</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q24 -->
+            <div class="question-card">
+                <span class="question-number">24</span>
+                <div class="question-text">The SI unit of electric field is:</div>
+                <div class="question-arabic">الوحدة الدولية للمجال الكهربائي هي:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">Newton/Coulomb (N/C)<br><span class="option-arabic">نيوتن/كولوم</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">Volt/meter (V/m)<br><span class="option-arabic">فولت/متر</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">Both A and B are correct<br><span class="option-arabic">كل من A و B صحيح</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">Joule/Coulomb<br><span class="option-arabic">جول/كولوم</span></div></div>
+                </div>
+            </div>
+
+            <!-- LECTURE 4: Potential and Capacitance -->
+            <div class="section-title">
+                <h3>Section 4: Electric Potential and Capacitance | القسم الرابع: الجهد الكهربائي والسعة</h3>
+            </div>
+
+            <!-- Q25 -->
+            <div class="question-card">
+                <span class="question-number">25</span>
+                <div class="question-text">The potential difference between two points is defined as:</div>
+                <div class="question-arabic">فرق الجهد بين نقطتين يُعرف بأنه:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">Force per unit charge<br><span class="option-arabic">القوة لكل وحدة شحنة</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">Work done per unit charge in moving between the points<br><span class="option-arabic">الشغل المبذول لكل وحدة شحنة عند الانتقال بين النقطتين</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">Charge per unit time<br><span class="option-arabic">الشحنة لكل وحدة زمن</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">Energy per unit mass<br><span class="option-arabic">الطاقة لكل وحدة كتلة</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q26 -->
+            <div class="question-card">
+                <span class="question-number">26</span>
+                <div class="question-text">The unit of potential difference is:</div>
+                <div class="question-arabic">وحدة فرق الجهد هي:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">Joule (J)<br><span class="option-arabic">جول</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">Volt (V) = Joule/Coulomb<br><span class="option-arabic">فولت = جول/كولوم</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">Ampere (A)<br><span class="option-arabic">أمبير</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">Watt (W)<br><span class="option-arabic">واط</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q27 -->
+            <div class="question-card">
+                <span class="question-number">27</span>
+                <div class="question-text">The absolute potential at a distance r from a point charge q is:</div>
+                <div class="question-arabic">الجهد المطلق على مسافة r من شحنة نقطية q هو:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">V = kq/r²<br><span class="option-arabic">V = kq/r²</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">V = kq/r<br><span class="option-arabic">V = kq/r</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">V = kq²/r<br><span class="option-arabic">V = kq²/r</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">V = k/r<br><span class="option-arabic">V = k/r</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q28 -->
+            <div class="question-card">
+                <span class="question-number">28</span>
+                <div class="question-text">The work done in moving a charge q through a potential difference V is:</div>
+                <div class="question-arabic">الشغل المبذول في نقل شحنة q عبر فرق جهد V هو:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">W = q/V<br><span class="option-arabic">W = q/V</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">W = qV<br><span class="option-arabic">W = qV</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">W = V/q<br><span class="option-arabic">W = V/q</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">W = q²V<br><span class="option-arabic">W = q²V</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q29 -->
+            <div class="question-card">
+                <span class="question-number">29</span>
+                <div class="question-text">For parallel plates, the relationship between electric field E, potential difference V, and separation d is:</div>
+                <div class="question-arabic">للصفائح المتوازية، العلاقة بين المجال الكهربائي E وفرق الجهد V والمسافة d هي:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">V = E/d<br><span class="option-arabic">V = E/d</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">V = Ed<br><span class="option-arabic">V = Ed</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">E = Vd<br><span class="option-arabic">E = Vd</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">V = E²d<br><span class="option-arabic">V = E²d</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q30 -->
+            <div class="question-card">
+                <span class="question-number">30</span>
+                <div class="question-text">Capacitance is defined as:</div>
+                <div class="question-arabic">تُعرّف السعة بأنها:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">Charge per unit voltage<br><span class="option-arabic">الشحنة لكل وحدة جهد</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">Voltage per unit charge<br><span class="option-arabic">الجهد لكل وحدة شحنة</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">Energy per unit charge<br><span class="option-arabic">الطاقة لكل وحدة شحنة</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">Force per unit charge<br><span class="option-arabic">القوة لكل وحدة شحنة</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q31 -->
+            <div class="question-card">
+                <span class="question-number">31</span>
+                <div class="question-text">The unit of capacitance is:</div>
+                <div class="question-arabic">وحدة السعة هي:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">Volt (V)<br><span class="option-arabic">فولت</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">Farad (F)<br><span class="option-arabic">فاراد</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">Coulomb (C)<br><span class="option-arabic">كولوم</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">Ohm (Ω)<br><span class="option-arabic">أوم</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q32 -->
+            <div class="question-card">
+                <span class="question-number">32</span>
+                <div class="question-text">For a parallel-plate capacitor, C = Kε₀A/d. If K = 1 (vacuum), this becomes:</div>
+                <div class="question-arabic">للمكثف ذي الصفائح المتوازية، C = Kε₀A/d. إذا كان K = 1 (فراغ)، فإنها تصبح:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">C = ε₀A/d<br><span class="option-arabic">C = ε₀A/d</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">C = ε₀d/A<br><span class="option-arabic">C = ε₀d/A</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">C = A/(ε₀d)<br><span class="option-arabic">C = A/(ε₀d)</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">C = ε₀A²/d<br><span class="option-arabic">C = ε₀A²/d</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q33 -->
+            <div class="question-card">
+                <span class="question-number">33</span>
+                <div class="question-text">When capacitors are connected in parallel:</div>
+                <div class="question-arabic">عند توصيل المكثفات على التوازي:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">The voltage across each is different<br><span class="option-arabic">الجهد عبر كل منها مختلف</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">The voltage across each is the same<br><span class="option-arabic">الجهد عبر كل منها متساوٍ</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">The charge on each is the same<br><span class="option-arabic">الشحنة على كل منها متساوية</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">The equivalent capacitance is less than the smallest<br><span class="option-arabic">السعة المكافئة أقل من الأصغر</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q34 -->
+            <div class="question-card">
+                <span class="question-number">34</span>
+                <div class="question-text">When capacitors are connected in series:</div>
+                <div class="question-arabic">عند توصيل المكثفات على التوالي:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">The charge on each capacitor is the same<br><span class="option-arabic">الشحنة على كل مكثف متساوية</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">The voltage across each is the same<br><span class="option-arabic">الجهد عبر كل منها متساوٍ</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">The equivalent capacitance is the sum of individual capacitances<br><span class="option-arabic">السعة المكافئة هي مجموع السعات الفردية</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">The charge adds up<br><span class="option-arabic">الشحنات تتجمع</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q35 -->
+            <div class="question-card">
+                <span class="question-number">35</span>
+                <div class="question-text">The energy stored in a capacitor is given by:</div>
+                <div class="question-arabic">الطاقة المخزنة في المكثف تعطى بالعلاقة:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">PE = ½CV² only<br><span class="option-arabic">PE = ½CV² فقط</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">PE = ½qV only<br><span class="option-arabic">PE = ½qV فقط</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">PE = ½q²/C only<br><span class="option-arabic">PE = ½q²/C فقط</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">All of the above forms are equivalent<br><span class="option-arabic">جميع الصور السابقة متكافئة</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q36 -->
+            <div class="question-card">
+                <span class="question-number">36</span>
+                <div class="question-text">For capacitors in series, the equivalent capacitance is calculated by:</div>
+                <div class="question-arabic">للمكثفات على التوالي، تحسب السعة المكافئة بـ:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">1/Ceq = 1/C₁ + 1/C₂ + 1/C₃ + ...<br><span class="option-arabic">1/Ceq = 1/C₁ + 1/C₂ + 1/C₃ + ...</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">Ceq = C₁ + C₂ + C₃ + ...<br><span class="option-arabic">Ceq = C₁ + C₂ + C₃ + ...</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">Ceq = C₁ × C₂ × C₃ × ...<br><span class="option-arabic">Ceq = C₁ × C₂ × C₃ × ...</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">Ceq = (C₁ + C₂)/2<br><span class="option-arabic">Ceq = (C₁ + C₂)/2</span></div></div>
+                </div>
+            </div>
+
+            <!-- LECTURE 5: Resistance, Current, and Ohm's Law -->
+            <div class="section-title">
+                <h3>Section 5: Resistance, Current, and Ohm's Law | القسم الخامس: المقاومة والتيار وقانون أوم</h3>
+            </div>
+
+            <!-- Q37 -->
+            <div class="question-card">
+                <span class="question-number">37</span>
+                <div class="question-text">Electric current is defined as:</div>
+                <div class="question-arabic">التيار الكهربائي يُعرّف بأنه:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">Charge per unit time<br><span class="option-arabic">الشحنة لكل وحدة زمن</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">Voltage per unit charge<br><span class="option-arabic">الجهد لكل وحدة شحنة</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">Energy per unit time<br><span class="option-arabic">الطاقة لكل وحدة زمن</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">Force per unit charge<br><span class="option-arabic">القوة لكل وحدة شحنة</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q38 -->
+            <div class="question-card">
+                <span class="question-number">38</span>
+                <div class="question-text">The unit of electric current is:</div>
+                <div class="question-arabic">وحدة التيار الكهربائي هي:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">Volt (V)<br><span class="option-arabic">فولت</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">Ampere (A) = Coulomb/second<br><span class="option-arabic">أمبير = كولوم/ثانية</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">Ohm (Ω)<br><span class="option-arabic">أوم</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">Watt (W)<br><span class="option-arabic">واط</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q39 -->
+            <div class="question-card">
+                <span class="question-number">39</span>
+                <div class="question-text">By convention, the direction of current is taken as the direction of flow of:</div>
+                <div class="question-arabic">وفقاً للاتفاقية، يؤخذ اتجاه التيار كاتجاه تدفق:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">Electrons<br><span class="option-arabic">الإلكترونات</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">Positive charge<br><span class="option-arabic">الشحنة الموجبة</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">Negative charge<br><span class="option-arabic">الشحنة السالبة</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">Neutrons<br><span class="option-arabic">النيوترونات</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q40 -->
+            <div class="question-card">
+                <span class="question-number">40</span>
+                <div class="question-text">The EMF (electromotive force) of a battery is:</div>
+                <div class="question-arabic">القوة الدافعة الكهربائية (EMF) للبطارية هي:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">The terminal voltage when current flows<br><span class="option-arabic">جهد الطرفين عند مرور التيار</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">The terminal voltage when no current flows<br><span class="option-arabic">جهد الطرفين عند عدم مرور تيار</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">Always zero<br><span class="option-arabic">صفر دائماً</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">The internal resistance<br><span class="option-arabic">المقاومة الداخلية</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q41 -->
+            <div class="question-card">
+                <span class="question-number">41</span>
+                <div class="question-text">Resistance R of a wire is given by:</div>
+                <div class="question-arabic">المقاومة R للسلك تعطى بالعلاقة:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">R = ρL/A<br><span class="option-arabic">R = ρL/A</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">R = ρA/L<br><span class="option-arabic">R = ρA/L</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">R = L/(ρA)<br><span class="option-arabic">R = L/(ρA)</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">R = ρLA<br><span class="option-arabic">R = ρLA</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q42 -->
+            <div class="question-card">
+                <span class="question-number">42</span>
+                <div class="question-text">The unit of resistivity ρ is:</div>
+                <div class="question-arabic">وحدة المقاومية النوعية ρ هي:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">Ohm (Ω)<br><span class="option-arabic">أوم</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">Ohm·meter (Ω·m)<br><span class="option-arabic">أوم·متر</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">Ohm/meter (Ω/m)<br><span class="option-arabic">أوم/متر</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">Meter/Ohm (m/Ω)<br><span class="option-arabic">متر/أوم</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q43 -->
+            <div class="question-card">
+                <span class="question-number">43</span>
+                <div class="question-text">Ohm's Law states that:</div>
+                <div class="question-arabic">ينص قانون أوم على أن:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">V = IR<br><span class="option-arabic">V = IR</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">V = I/R<br><span class="option-arabic">V = I/R</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">R = VI<br><span class="option-arabic">R = VI</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">I = VR<br><span class="option-arabic">I = VR</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q44 -->
+            <div class="question-card">
+                <span class="question-number">44</span>
+                <div class="question-text">The unit of resistance is:</div>
+                <div class="question-arabic">وحدة المقاومة هي:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">Volt (V)<br><span class="option-arabic">فولت</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">Ampere (A)<br><span class="option-arabic">أمبير</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">Ohm (Ω) = Volt/Ampere<br><span class="option-arabic">أوم = فولت/أمبير</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">Watt (W)<br><span class="option-arabic">واط</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q45 -->
+            <div class="question-card">
+                <span class="question-number">45</span>
+                <div class="question-text">Resistance varies with temperature according to:</div>
+                <div class="question-arabic">تتغير المقاومة مع درجة الحرارة وفقاً لـ:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">R = R₀[1 + α(T - T₀)]<br><span class="option-arabic">R = R₀[1 + α(T - T₀)]</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">R = R₀/(T - T₀)<br><span class="option-arabic">R = R₀/(T - T₀)</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">R = R₀ × α × T<br><span class="option-arabic">R = R₀ × α × T</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">R is independent of temperature<br><span class="option-arabic">R مستقلة عن درجة الحرارة</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q46 -->
+            <div class="question-card">
+                <span class="question-number">46</span>
+                <div class="question-text">When a battery delivers current, the terminal voltage is:</div>
+                <div class="question-arabic">عندما تُ suministra البطارية تياراً، فإن جهد الطرفين هو:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">V = ε + Ir<br><span class="option-arabic">V = ε + Ir</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">V = ε - Ir<br><span class="option-arabic">V = ε - Ir</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">V = ε × Ir<br><span class="option-arabic">V = ε × Ir</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">V = ε/Ir<br><span class="option-arabic">V = ε/Ir</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q47 -->
+            <div class="question-card">
+                <span class="question-number">47</span>
+                <div class="question-text">When a battery is being charged (receiving current), the terminal voltage is:</div>
+                <div class="question-arabic">عند شحن البطارية (استقبال تيار)، فإن جهد الطرفين هو:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">V = ε - Ir<br><span class="option-arabic">V = ε - Ir</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">V = ε + Ir<br><span class="option-arabic">V = ε + Ir</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">V = ε<br><span class="option-arabic">V = ε</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">V = 0<br><span class="option-arabic">V = 0</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q48 -->
+            <div class="question-card">
+                <span class="question-number">48</span>
+                <div class="question-text">The temperature coefficient of resistance α has units of:</div>
+                <div class="question-arabic">معامل درجة حرارة المقاومة α له وحدات:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">Ohm/°C<br><span class="option-arabic">أوم/درجة مئوية</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">°C⁻¹ or K⁻¹<br><span class="option-arabic">درجة مئوية⁻¹ أو كلفن⁻¹</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">Ohm<br><span class="option-arabic">أوم</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">Dimensionless<br><span class="option-arabic">بدون أبعاد</span></div></div>
+                </div>
+            </div>
+
+            <!-- NUMERICAL PROBLEMS -->
+            <div class="section-title">
+                <h3>Section 6: Numerical Problems | القسم السادس: مسائل عددية</h3>
+            </div>
+
+            <!-- Q49 -->
+            <div class="question-card">
+                <span class="question-number">49</span>
+                <div class="question-text">Two charges q₁ = 1.60 × 10⁻¹⁹ C and q₂ = 3.20 × 10⁻¹⁹ C are separated by R = 0.0200 m. What is the magnitude of the electrostatic force?</div>
+                <div class="question-arabic">شحنتان q₁ = 1.60 × 10⁻¹٩ C و q₂ = 3.20 × 10⁻¹٩ C مفصولتان بمسافة R = 0.0200 م. ما مقدار القوة الكهروستاتيكية؟</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">1.15 × 10⁻²⁴ N<br><span class="option-arabic">1.15 × 10⁻²⁴ نيوتن</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">1.15 × 10⁻²³ N<br><span class="option-arabic">1.15 × 10⁻²³ نيوتن</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">2.30 × 10⁻²⁴ N<br><span class="option-arabic">2.30 × 10⁻²⁴ نيوتن</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">5.75 × 10⁻²⁵ N<br><span class="option-arabic">5.75 × 10⁻²⁵ نيوتن</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q50 -->
+            <div class="question-card">
+                <span class="question-number">50</span>
+                <div class="question-text">In the Bohr model, an electron orbits a proton at radius 5.3 × 10⁻¹¹ m. What is the electrostatic force of attraction?</div>
+                <div class="question-arabic">في نموذج بور، يدور إلكترون حول بروتون على مسافة 5.3 × 10⁻¹¹ م. ما قوة التجاذب الكهروستاتيكية؟</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">8.2 × 10⁻⁸ N<br><span class="option-arabic">8.2 × 10⁻⁸ نيوتن</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">8.2 × 10⁻⁹ N<br><span class="option-arabic">8.2 × 10⁻⁹ نيوتن</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">82 × 10⁻⁸ N<br><span class="option-arabic">82 × 10⁻⁸ نيوتن</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">0.82 × 10⁻⁸ N<br><span class="option-arabic">0.82 × 10⁻⁸ نيوتن</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q51 -->
+            <div class="question-card">
+                <span class="question-number">51</span>
+                <div class="question-text">A steady current of 0.50 A flows for 60 s. How much charge passes through the wire?</div>
+                <div class="question-arabic">تيار مستمر 0.50 أمبير يمر لمدة 60 ثانية. ما مقدار الشحنة التي تمر عبر السلك؟</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">30 C<br><span class="option-arabic">30 كولوم</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">120 C<br><span class="option-arabic">120 كولوم</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">0.30 C<br><span class="option-arabic">0.30 كولوم</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">60 C<br><span class="option-arabic">60 كولوم</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q52 -->
+            <div class="question-card">
+                <span class="question-number">52</span>
+                <div class="question-text">A light bulb has resistance 240 Ω at normal operating voltage 120 V. What is the current?</div>
+                <div class="question-arabic">مصباح له مقاومة 240 أوم عند جهد تشغيل طبيعي 120 فولت. ما قيمة التيار؟</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">0.5 A<br><span class="option-arabic">0.5 أمبير</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">2.0 A<br><span class="option-arabic">2.0 أمبير</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">0.25 A<br><span class="option-arabic">0.25 أمبير</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">1.0 A<br><span class="option-arabic">1.0 أمبير</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q53 -->
+            <div class="question-card">
+                <span class="question-number">53</span>
+                <div class="question-text">A generator has EMF = 120 V. At output 20 A, terminal voltage is 115 V. What is the internal resistance?</div>
+                <div class="question-arabic">مولد له قوة دافعة 120 فولت. عند إخراج 20 أمبير، جهد الطرفين 115 فولت. ما المقاومة الداخلية؟</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">0.25 Ω<br><span class="option-arabic">0.25 أوم</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">0.50 Ω<br><span class="option-arabic">0.50 أوم</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">0.125 Ω<br><span class="option-arabic">0.125 أوم</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">1.0 Ω<br><span class="option-arabic">1.0 أوم</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q54 -->
+            <div class="question-card">
+                <span class="question-number">54</span>
+                <div class="question-text">A metal rod is 2 m long, 8 mm diameter, with resistivity 1.76 × 10⁻⁸ Ω·m. What is its resistance?</div>
+                <div class="question-arabic">قضيب معدني طوله 2 م وقطره 8 ملم ومقاوميته 1.76 × 10⁻⁸ أوم·متر. ما مقاومته؟</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">7 × 10⁻⁴ Ω<br><span class="option-arabic">7 × 10⁻⁴ أوم</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">7 × 10⁻³ Ω<br><span class="option-arabic">7 × 10⁻³ أوم</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">0.7 Ω<br><span class="option-arabic">0.7 أوم</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">70 Ω<br><span class="option-arabic">70 أوم</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q55 -->
+            <div class="question-card">
+                <span class="question-number">55</span>
+                <div class="question-text">Parallel plates have area A = 0.5 m² and separation d = 10 cm. What is the capacitance?</div>
+                <div class="question-arabic">صفائح متوازية مساحتها A = 0.5 م² ومسافة فصلها d = 10 سم. ما قيمة السعة؟</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">44.25 × 10⁻¹² F<br><span class="option-arabic">44.25 × 10⁻¹² فاراد</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">44.25 × 10⁻¹¹ F<br><span class="option-arabic">44.25 × 10⁻¹¹ فاراد</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">4.425 × 10⁻¹² F<br><span class="option-arabic">4.425 × 10⁻¹² فاراد</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">442.5 × 10⁻¹² F<br><span class="option-arabic">442.5 × 10⁻¹² فاراد</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q56 -->
+            <div class="question-card">
+                <span class="question-number">56</span>
+                <div class="question-text">A capacitor C = 4.4 × 10⁻¹¹ F is connected to 500 V. What is the charge?</div>
+                <div class="question-arabic">مكثف سعته C = 4.4 × 10⁻¹¹ فاراد موصول بـ 500 فولت. ما الشحنة؟</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">22 nC<br><span class="option-arabic">22 نانوكولوم</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">2.2 nC<br><span class="option-arabic">2.2 نانوكولوم</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">220 nC<br><span class="option-arabic">220 نانوكولوم</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">0.22 nC<br><span class="option-arabic">0.22 نانوكولوم</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q57 -->
+            <div class="question-card">
+                <span class="question-number">57</span>
+                <div class="question-text">Two capacitors 3.0 pF and 6.0 pF are in series across 1000 V. What is the equivalent capacitance?</div>
+                <div class="question-arabic">مكثفان 3.0 بيكوفاراد و 6.0 بيكوفاراد على التوالي عبر 1000 فولت. ما السعة المكافئة؟</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">2.0 pF<br><span class="option-arabic">2.0 بيكوفاراد</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">9.0 pF<br><span class="option-arabic">9.0 بيكوفاراد</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">18.0 pF<br><span class="option-arabic">18.0 بيكوفاراد</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">4.5 pF<br><span class="option-arabic">4.5 بيكوفاراد</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q58 -->
+            <div class="question-card">
+                <span class="question-number">58</span>
+                <div class="question-text">How much work is required to carry an electron from + terminal to - terminal of a 12-V battery?</div>
+                <div class="question-arabic">ما الشغل المطلوب لنقل إلكترون من الطرف الموجب إلى السالب لبطارية 12 فولت؟</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">1.9 × 10⁻¹⁸ J<br><span class="option-arabic">1.9 × 10⁻¹⁸ جول</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">19 × 10⁻¹⁸ J<br><span class="option-arabic">19 × 10⁻¹⁸ جول</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">0.19 × 10⁻¹⁸ J<br><span class="option-arabic">0.19 × 10⁻¹⁸ جول</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">19 × 10⁻¹⁹ J<br><span class="option-arabic">19 × 10⁻¹٩ جول</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q59 -->
+            <div class="question-card">
+                <span class="question-number">59</span>
+                <div class="question-text">A tin nucleus has charge 50e. What is the absolute potential at r = 1.0 × 10⁻¹² m?</div>
+                <div class="question-arabic">نواة قصدير لها شحنة 50e. ما الجهد المطلق على مسافة r = 1.0 × 10⁻¹² م؟</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">72 kV<br><span class="option-arabic">72 كيلوفولت</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">720 kV<br><span class="option-arabic">720 كيلوفولت</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">7.2 kV<br><span class="option-arabic">7.2 كيلوفولت</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">7200 kV<br><span class="option-arabic">7200 كيلوفولت</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q60 -->
+            <div class="question-card">
+                <span class="question-number">60</span>
+                <div class="question-text">A cell has EMF = 1.5 V. When connected to 2Ω external resistance, terminal voltage is 1V. What is the internal resistance?</div>
+                <div class="question-arabic">خلية قوتها الدافعة 1.5 فولت. عند توصيلها بمقاومة خارجية 2 أوم، جهد الطرفين 1 فولت. ما المقاومة الداخلية؟</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">1 Ω<br><span class="option-arabic">1 أوم</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">0.5 Ω<br><span class="option-arabic">0.5 أوم</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">2 Ω<br><span class="option-arabic">2 أوم</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">1.5 Ω<br><span class="option-arabic">1.5 أوم</span></div></div>
+                </div>
+            </div>
+
+            <!-- CONCEPTUAL QUESTIONS -->
+            <div class="section-title">
+                <h3>Section 7: Conceptual Questions | القسم السابع: أسئلة مفاهيمية</h3>
+            </div>
+
+            <!-- Q61 -->
+            <div class="question-card">
+                <span class="question-number">61</span>
+                <div class="question-text">Why does charging by friction not happen in humid conditions?</div>
+                <div class="question-arabic">لماذا لا يحدث الشحن بالاحتكاك في الظروف الرطبة؟</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">Water increases friction<br><span class="option-arabic">الماء يزيد الاحتكاك</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">Water in air neutralizes excess charge<br><span class="option-arabic">الماء في الهواء يحيد الشحنة الزائدة</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">Humidity increases conductivity<br><span class="option-arabic">الرطوبة تزيد التوصيلية</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">Water creates more charge<br><span class="option-arabic">الماء ينشئ المزيد من الشحنة</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q62 -->
+            <div class="question-card">
+                <span class="question-number">62</span>
+                <div class="question-text">The positive terminal of a battery is always at:</div>
+                <div class="question-arabic">الطرف الموجب للبطارية دائماً يكون عند:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">Lower potential<br><span class="option-arabic">جهد أقل</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">Higher potential<br><span class="option-arabic">جهد أعلى</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">Zero potential<br><span class="option-arabic">جهد صفر</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">Negative potential<br><span class="option-arabic">جهد سالب</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q63 -->
+            <div class="question-card">
+                <span class="question-number">63</span>
+                <div class="question-text">Current always flows from:</div>
+                <div class="question-arabic">التيار يتدفق دائماً من:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">Low potential to high potential<br><span class="option-arabic">جهد منخفض إلى جهد مرتفع</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">High potential to low potential<br><span class="option-arabic">جهد مرتفع إلى جهد منخفض</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">Negative to positive only<br><span class="option-arabic">سالب إلى موجب فقط</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">Positive to negative only in circuits<br><span class="option-arabic">موجب إلى سالب فقط في الدوائر</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q64 -->
+            <div class="question-card">
+                <span class="question-number">64</span>
+                <div class="question-text">The potential difference across a resistor is measured by:</div>
+                <div class="question-arabic">فرق الجهد عبر المقاومة يُقاس بـ:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">Ammeter connected in series<br><span class="option-arabic">أميتر موصول على التوالي</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">Voltmeter connected in parallel<br><span class="option-arabic">فولتميتر موصول على التوازي</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">Ohmmeter connected in series<br><span class="option-arabic">أوميتر موصول على التوالي</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">Galvanometer alone<br><span class="option-arabic">جلفانوميتر وحده</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q65 -->
+            <div class="question-card">
+                <span class="question-number">65</span>
+                <div class="question-text">Resistance is computed by:</div>
+                <div class="question-arabic">تُحسب المقاومة بـ:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">Dividing voltmeter reading by ammeter reading<br><span class="option-arabic">قسمة قراءة الفولتميتر على قراءة الأميتر</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">Multiplying voltmeter reading by ammeter reading<br><span class="option-arabic">ضرب قراءة الفولتميتر في قراءة الأميتر</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">Adding voltmeter and ammeter readings<br><span class="option-arabic">جمع قراءتي الفولتميتر والأميتر</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">Subtracting ammeter from voltmeter reading<br><span class="option-arabic">طرح الأميتر من قراءة الفولتميتر</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q66 -->
+            <div class="question-card">
+                <span class="question-number">66</span>
+                <div class="question-text">In EX3 (from Lecture 5), point A is at higher potential because:</div>
+                <div class="question-arabic">في المثال 3 (من المحاضرة 5)، النقطة A عند جهد أعلى لأن:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">Current flows from A to B<br><span class="option-arabic">التيار يتدفق من A إلى B</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">Current always flows from high to low potential<br><span class="option-arabic">التيار يتدفق دائماً من جهد مرتفع إلى منخفض</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">The battery EMF is at A<br><span class="option-arabic">قوة دفع البطارية عند A</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">The resistance is lower at A<br><span class="option-arabic">المقاومة أقل عند A</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q67 -->
+            <div class="question-card">
+                <span class="question-number">67</span>
+                <div class="question-text">The relation V = IR can be applied to:</div>
+                <div class="question-arabic">العلاقة V = IR يمكن تطبيقها على:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">Any resistor<br><span class="option-arabic">أي مقاومة</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">Only ohmic materials<br><span class="option-arabic">المواد الأومية فقط</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">Only semiconductors<br><span class="option-arabic">المواد شبه الموصلة فقط</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">Only insulators<br><span class="option-arabic">العوازل فقط</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q68 -->
+            <div class="question-card">
+                <span class="question-number">68</span>
+                <div class="question-text">When no current exists in a battery:</div>
+                <div class="question-arabic">عندما لا يوجد تيار في البطارية:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">Terminal voltage is zero<br><span class="option-arabic">جهد الطرفين صفر</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">Terminal voltage equals EMF<br><span class="option-arabic">جهد الطرفين يساوي القوة الدافعة</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">Terminal voltage is less than EMF<br><span class="option-arabic">جهد الطرفين أقل من القوة الدافعة</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">The battery is discharged<br><span class="option-arabic">البطارية فارغة</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q69 -->
+            <div class="question-card">
+                <span class="question-number">69</span>
+                <div class="question-text">A test charge is assumed to be:</div>
+                <div class="question-arabic">يُفترض أن الشحنة الاختبارية:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">Very large to measure the field accurately<br><span class="option-arabic">كبيرة جداً لقياس المجال بدقة</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">Very small so it doesn't disturb the field<br><span class="option-arabic">صغيرة جداً حتى لا تزعزع المجال</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">Negative always<br><span class="option-arabic">سالبة دائماً</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">Equal to the source charge<br><span class="option-arabic">مساوية لشحنة المصدر</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q70 -->
+            <div class="question-card">
+                <span class="question-number">70</span>
+                <div class="question-text">Electric field lines point:</div>
+                <div class="question-arabic">خطوط المجال الكهربائي تشير:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">Away from positive charges, toward negative charges<br><span class="option-arabic">بعيداً عن الشحنات الموجبة، نحو الشحنات السالبة</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">Away from negative charges, toward positive charges<br><span class="option-arabic">بعيداً عن الشحنات السالبة، نحو الشحنات الموجبة</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">In circular paths around charges<br><span class="option-arabic">في مسارات دائرية حول الشحنات</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">Randomly in space<br><span class="option-arabic">بشكل عشوائي في الفضاء</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q71 -->
+            <div class="question-card">
+                <span class="question-number">71</span>
+                <div class="question-text">Where electric field lines are closest together, the electric field is:</div>
+                <div class="question-arabic">حيث تكون خطوط المجال الكهربائي أقرب معاً، يكون المجال الكهربائي:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">Weakest<br><span class="option-arabic">أضعف</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">Strongest<br><span class="option-arabic">أقوى</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">Zero<br><span class="option-arabic">صفر</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">Uniform<br><span class="option-arabic">منتظم</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q72 -->
+            <div class="question-card">
+                <span class="question-number">72</span>
+                <div class="question-text">The absolute potential at infinity is defined as:</div>
+                <div class="question-arabic">الجهد المطلق في اللانهاية يُعرف بأنه:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">Maximum<br><span class="option-arabic">أقصى</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">Zero<br><span class="option-arabic">صفر</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">Minimum<br><span class="option-arabic">أدنى</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">Undefined<br><span class="option-arabic">غير محدد</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q73 -->
+            <div class="question-card">
+                <span class="question-number">73</span>
+                <div class="question-text">For capacitors in parallel, Ceq equals:</div>
+                <div class="question-arabic">للمكثفات على التوازي، Ceq تساوي:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">C₁ + C₂ + C₃ + ...<br><span class="option-arabic">C₁ + C₂ + C₃ + ...</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">1/C₁ + 1/C₂ + 1/C₃ + ...<br><span class="option-arabic">1/C₁ + 1/C₂ + 1/C₃ + ...</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">C₁ × C₂ × C₃ × ...<br><span class="option-arabic">C₁ × C₂ × C₃ × ...</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">(C₁ + C₂)/2<br><span class="option-arabic">(C₁ + C₂)/2</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q74 -->
+            <div class="question-card">
+                <span class="question-number">74</span>
+                <div class="question-text">Adding a dielectric between capacitor plates:</div>
+                <div class="question-arabic">إضافة مادة عازلة بين صفائح المكثف:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">Decreases capacitance by factor K<br><span class="option-arabic">تقلل السعة بمعامل K</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">Increases capacitance by factor K<br><span class="option-arabic">تزيد السعة بمعامل K</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">Does not affect capacitance<br><span class="option-arabic">لا تؤثر على السعة</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">Makes capacitance zero<br><span class="option-arabic">تجعل السعة صفراً</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q75 -->
+            <div class="question-card">
+                <span class="question-number">75</span>
+                <div class="question-text">The dielectric constant of air is approximately:</div>
+                <div class="question-arabic">ثابت العزل للهواء تقريباً:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">1.0006<br><span class="option-arabic">1.0006</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">80<br><span class="option-arabic">80</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">2.60<br><span class="option-arabic">2.60</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">0<br><span class="option-arabic">0</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q76 -->
+            <div class="question-card">
+                <span class="question-number">76</span>
+                <div class="question-text">For a capacitor with dielectric K = 2.60 connected to 500 V, compared to air:</div>
+                <div class="question-arabic">لمكثف له عازل K = 2.60 موصول بـ 500 فولت، مقارنة بالهواء:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">Charge decreases<br><span class="option-arabic">الشحنة تقل</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">Charge increases by factor 2.60<br><span class="option-arabic">الشحنة تزيد بمعامل 2.60</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">Voltage increases<br><span class="option-arabic">الجهد يزيد</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">Capacitance stays the same<br><span class="option-arabic">السعة تبقى كما هي</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q77 -->
+            <div class="question-card">
+                <span class="question-number">77</span>
+                <div class="question-text">In a series combination of capacitors:</div>
+                <div class="question-arabic">في التوصيل التسلسلي للمكثفات:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">The charge on each capacitor is different<br><span class="option-arabic">الشحنة على كل مكثف مختلفة</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">The voltage across each is the same<br><span class="option-arabic">الجهد عبر كل منها متساوٍ</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">The charge on each capacitor is the same<br><span class="option-arabic">الشحنة على كل مكثف متساوية</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">The equivalent capacitance is greater than any individual<br><span class="option-arabic">السعة المكافئة أكبر من أي فردية</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q78 -->
+            <div class="question-card">
+                <span class="question-number">78</span>
+                <div class="question-text">Potential is a ______ quantity.</div>
+                <div class="question-arabic">الجهد كمية ______.</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">Vector<br><span class="option-arabic">متجهة</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">Scalar<br><span class="option-arabic">قياسية</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">Tensor<br><span class="option-arabic">موترة</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">Neither scalar nor vector<br><span class="option-arabic">لا قياسية ولا متجهة</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q79 -->
+            <div class="question-card">
+                <span class="question-number">79</span>
+                <div class="question-text">For a potential rise, if q is positive, the PE will:</div>
+                <div class="question-arabic">لارتفاع في الجهد، إذا كانت q موجبة، فإن الطاقة الكامنة:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">Decrease<br><span class="option-arabic">تقل</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">Increase<br><span class="option-arabic">تزيد</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">Remain constant<br><span class="option-arabic">تبقى ثابتة</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">Become zero<br><span class="option-arabic">تصبح صفراً</span></div></div>
+                </div>
+            </div>
+
+            <!-- Q80 -->
+            <div class="question-card">
+                <span class="question-number">80</span>
+                <div class="question-text">The energy stored in a capacitor can be expressed as:</div>
+                <div class="question-arabic">الطاقة المخزنة في المكثف يمكن التعبير عنها كـ:</div>
+                <div class="options">
+                    <div class="option"><span class="option-letter">A</span><div class="option-text">½CV²<br><span class="option-arabic">½CV²</span></div></div>
+                    <div class="option"><span class="option-letter">B</span><div class="option-text">½qV<br><span class="option-arabic">½qV</span></div></div>
+                    <div class="option"><span class="option-letter">C</span><div class="option-text">½q²/C<br><span class="option-arabic">½q²/C</span></div></div>
+                    <div class="option"><span class="option-letter">D</span><div class="option-text">All of the above<br><span class="option-arabic">جميع ما سبق</span></div></div>
+                </div>
+            </div>
+
+            <button type="button" class="submit-btn" onclick="submitExam()">
+                Submit Exam / تسليم الامتحان
+            </button>
+        </form>
+    </div>
+
+    <div class="results" id="results">
+        <div class="results-content">
+            <h2>Exam Results / نتائج الامتحان</h2>
+            <div class="score-circle" id="scoreCircle">
+                <div class="score-inner" id="scoreDisplay">0%</div>
+            </div>
+            <p id="resultMessage"></p>
+            <p style="color: #aaa; margin-top: 20px;">
+                Correct Answers: <span id="correctCount" style="color: #00d4ff; font-size: 1.5em;">0</span> / 80
+            </p>
+            <p style="color: #ffd700; margin-top: 10px;">
+                الاجابات الصحيحة: <span id="correctCountAr">0</span> / 80
+            </p>
+            <button onclick="closeResults()" style="margin-top: 30px; padding: 15px 30px; background: #00d4ff; border: none; border-radius: 10px; color: white; font-size: 1.1em; cursor: pointer;">
+                Close / إغلاق
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const correctAnswers = {
+            1: 'B', 2: 'B', 3: 'C', 4: 'A', 5: 'B', 6: 'C', 7: 'C', 8: 'B',
+            9: 'C', 10: 'B', 11: 'B', 12: 'C', 13: 'B', 14: 'B', 15: 'A',
+            16: 'B', 17: 'A', 18: 'B', 19: 'C', 20: 'B', 21: 'B', 22: 'B',
+            23: 'B', 24: 'C', 25: 'B', 26: 'B', 27: 'B', 28: 'B', 29: 'B',
+            30: 'A', 31: 'B', 32: 'A', 33: 'B', 34: 'A', 35: 'D', 36: 'A',
+            37: 'A', 38: 'B', 39: 'B', 40: 'B', 41: 'A', 42: 'B', 43: 'A',
+            44: 'C', 45: 'A', 46: 'B', 47: 'B', 48: 'B', 49: 'A', 50: 'A',
+            51: 'A', 52: 'A', 53: 'A', 54: 'A', 55: 'A', 56: 'A', 57: 'A',
+            58: 'A', 59: 'A', 60: 'A', 61: 'B', 62: 'B', 63: 'B', 64: 'B',
+            65: 'A', 66: 'B', 67: 'A', 68: 'B', 69: 'B', 70: 'A', 71: 'B',
+            72: 'B', 73: 'A', 74: 'B', 75: 'A', 76: 'B', 77: 'C', 78: 'B',
+            79: 'B', 80: 'D'
+        };
+
+        let selectedAnswers = {};
+
+        document.querySelectorAll('.option').forEach(option => {
+            option.addEventListener('click', function() {
+                const card = this.closest('.question-card');
+                const qNum = card.querySelector('.question-number').textContent;
+                const letter = this.querySelector('.option-letter').textContent;
+                
+                card.querySelectorAll('.option').forEach(opt => {
+                    opt.style.background = 'rgba(255,255,255,0.05)';
+                    opt.style.borderColor = 'transparent';
+                });
+                
+                this.style.background = 'rgba(0,212,255,0.2)';
+                this.style.borderColor = '#00d4ff';
+                
+                selectedAnswers[qNum] = letter;
+            });
+        });
+
+        function submitExam() {
+            let correct = 0;
+            for (let i = 1; i <= 80; i++) {
+                if (selectedAnswers[i] === correctAnswers[i]) {
+                    correct++;
+                }
+            }
+            
+            const percentage = Math.round((correct / 80) * 100);
+            const degrees = (percentage / 100) * 360;
+            
+            document.getElementById('scoreCircle').style.setProperty('--score-deg', degrees + 'deg');
+            document.getElementById('scoreDisplay').textContent = percentage + '%';
+            document.getElementById('correctCount').textContent = correct;
+            document.getElementById('correctCountAr').textContent = correct;
+            
+            let message = '';
+            let messageAr = '';
+            if (percentage >= 90) {
+                message = 'Excellent! Outstanding performance!';
+                messageAr = 'ممتاز! أداء رائع!';
+            } else if (percentage >= 80) {
+                message = 'Very Good! Great job!';
+                messageAr = 'جيد جداً! عمل رائع!';
+            } else if (percentage >= 70) {
+                message = 'Good! Keep improving!';
+                messageAr = 'جيد! استمر في التحسن!';
+            } else if (percentage >= 60) {
+                message = 'Pass. More study needed.';
+                messageAr = 'ناجح. يحتاج إلى مزيد من الدراسة.';
+            } else {
+                message = 'Fail. Please review the material.';
+                messageAr = 'راسب. يرجى مراجعة المادة.';
+            }
+            
+            document.getElementById('resultMessage').innerHTML = 
+                `<span style="color: #00d4ff; font-size: 1.3em;">${message}</span><br>` +
+                `<span style="color: #ffd700; font-size: 1.2em; margin-top: 10px; display: inline-block;">${messageAr}</span>`;
+            
+            document.getElementById('results').style.display = 'flex';
+        }
+
+        function closeResults() {
+            document.getElementById('results').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
